@@ -19,6 +19,11 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="PodkovaStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/podkova_bold</item>
+    </style>
+
+
     <style name="Theme.ImageScanner.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.ImageScanner.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

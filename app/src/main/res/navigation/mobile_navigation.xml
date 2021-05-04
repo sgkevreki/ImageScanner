@@ -12,14 +12,14 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.example.imagescanner.ui.gallery.GalleryFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_saved_files"
+        android:name="com.example.imagescanner.ui.saved_files.Saved_FilesFragment"
+        android:label="Saved Files"
+        tools:layout="@layout/fragment_saved_files" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_signature"
         android:name="com.example.imagescanner.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:label="Saved Signatures"
+        tools:layout="@layout/fragment_signature" />
 </navigation>
