@@ -1,19 +1,20 @@
 package com.example.imagescanner
 
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.media.MediaScannerConnection
-import android.media.effect.Effect
-import android.media.effect.EffectContext
-import android.media.effect.EffectFactory
 import android.net.Uri
-import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.graphics.drawable.toBitmap
 import java.io.File
 
+import me.pqpo.smartcropperlib.SmartCropper;
+import me.pqpo.smartcropperlib.view.CropImageView;
 
 class EditImage : AppCompatActivity() {
 
@@ -28,7 +29,7 @@ class EditImage : AppCompatActivity() {
         val leftButton = findViewById<ImageButton>(R.id.left_button)
         val mirrorButton = findViewById<ImageButton>(R.id.mirror_button)
 
-
+        val ivCrop: CropImageView = findViewById(R.id.iv_crop)
 
 
         currentPhotoPath = intent.getStringExtra("current_photo_path").toString()
@@ -39,7 +40,10 @@ class EditImage : AppCompatActivity() {
          MediaScannerConnection.scanFile(applicationContext, arrayOf(f.toString()),
              null, null)
 
+        val bitmap = selectedImage.drawable.toBitmap()
 
+        ivCrop.setImageToCrop(bitmap)
+        val crop: Bitmap = ivCrop.crop()
 
         rightButton.setOnClickListener() {
             //rotate right the image
@@ -54,6 +58,5 @@ class EditImage : AppCompatActivity() {
             selectedImage.animate().rotationYBy(180f).start()
         }
     }
-
 
 }
