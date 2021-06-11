@@ -2,25 +2,25 @@ package com.example.imagescanner.ui.home
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import android.widget.ImageButton
-import android.widget.ImageView
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.imagescanner.EditImage
+import com.example.imagescanner.MainActivity
 import com.example.imagescanner.R
 import java.io.File
 import java.io.IOException
@@ -31,32 +31,38 @@ import java.util.*
 class HomeFragment : Fragment() {
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
 
     ): View {
+
+
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         val imageButton = view.findViewById<View>(R.id.scan_button) as ImageButton
 
+
+        val activity: MainActivity? = activity as MainActivity?
+        val myDataFromActivity: String? = activity?.getMyData()
+
+        if (myDataFromActivity == "true") {
+            dispatchTakePictureIntent()
+        }
+
         imageButton.setOnClickListener() {
 
-          //  askCameraPermissions()
+            //  askCameraPermissions()
             dispatchTakePictureIntent()
         }
         return view
     }
 
-    
-
-    private val REQUEST_IMAGE_CAPTURE = 1
-
-
 
     private val CAMERA_PERM_CODE = 101
     private val CAMERA_REQUEST_CODE = 102
     private val GALLERY_REQUEST_CODE = 105
-   // private val intent3 =Intent(activity, EditImage::class.java)
+    // private val intent3 =Intent(activity, EditImage::class.java)
+
 
     var currentPhotoPath: String? = null
     private fun askCameraPermissions() {
@@ -78,9 +84,12 @@ class HomeFragment : Fragment() {
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val intent =Intent(activity, EditImage::class.java)
-        intent.putExtra("current_photo_path",currentPhotoPath )
-        startActivity(intent)
+        if (resultCode == RESULT_OK) {
+            val intent = Intent(activity, EditImage::class.java)
+            intent.putExtra("current_photo_path", currentPhotoPath)
+            startActivity(intent)
+//        activity?.finish()
+        }
     }
 
 
@@ -95,12 +104,11 @@ class HomeFragment : Fragment() {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "JPEG_" + timeStamp + "_"
-        //        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         val image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",  /* suffix */
-                storageDir /* directory */
+            imageFileName,  /* prefix */
+            ".jpg",  /* suffix */
+            storageDir /* directory */
         )
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.absolutePath
@@ -124,8 +132,8 @@ class HomeFragment : Fragment() {
             if (photoFile != null) {
                 val photoURI: Uri? = context?.let {
                     FileProvider.getUriForFile(it,
-                            "com.example.android.fileprovider",
-                            photoFile)
+                        "com.example.android.fileprovider",
+                        photoFile)
                 }
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE)

@@ -1,26 +1,34 @@
 package com.example.imagescanner
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Matrix
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.View
+import android.view.MotionEvent
+import android.view.ScaleGestureDetector
+import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
+import com.example.imagescanner.ui.OptimizedImage
+import me.pqpo.smartcropperlib.view.CropImageView
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.util.*
 
-import me.pqpo.smartcropperlib.SmartCropper;
-import me.pqpo.smartcropperlib.view.CropImageView;
 
 class EditImage : AppCompatActivity() {
-
+    private var mScaleGestureDetector: ScaleGestureDetector? = null
+    private val ivCrop: ImageView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_image)
 
@@ -28,35 +36,127 @@ class EditImage : AppCompatActivity() {
         val rightButton = findViewById<ImageButton>(R.id.right_button)
         val leftButton = findViewById<ImageButton>(R.id.left_button)
         val mirrorButton = findViewById<ImageButton>(R.id.mirror_button)
+        val optimizeButton = findViewById<ImageButton>(R.id.optimize_button)
+        val retakeButton = findViewById<ImageButton>(R.id.retake_button)
+
+        val mCroppedFile = File(getExternalFilesDir("img"), "scan.jpg")
+
 
         val ivCrop: CropImageView = findViewById(R.id.iv_crop)
 
+        //pinch to zoom in or zoom out
+        mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         currentPhotoPath = intent.getStringExtra("current_photo_path").toString()
-        val selectedImage = findViewById<View>(R.id.displayImageView) as ImageView
         val f = File(currentPhotoPath)
-        selectedImage.setImageURI(Uri.fromFile(f))
+        ivCrop.setImageURI(Uri.fromFile(f))
         Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f))
-         MediaScannerConnection.scanFile(applicationContext, arrayOf(f.toString()),
-             null, null)
+        MediaScannerConnection.scanFile(applicationContext, arrayOf(f.toString()),
+            null, null)
 
-        val bitmap = selectedImage.drawable.toBitmap()
+        val bitmap = ivCrop.drawable.toBitmap()
 
         ivCrop.setImageToCrop(bitmap)
-        val crop: Bitmap = ivCrop.crop()
+
 
         rightButton.setOnClickListener() {
             //rotate right the image
-            selectedImage.animate().rotationBy(90f).start()
+            ivCrop.animate().rotationBy(90f).start()
         }
         leftButton.setOnClickListener() {
             //rotate left the image
-            selectedImage.animate().rotationBy(-90f).start()
+            ivCrop.animate().rotationBy(-90f).start()
         }
         mirrorButton.setOnClickListener() {
             //mirror/flip the image
-            selectedImage.animate().rotationYBy(180f).start()
+            ivCrop.animate().rotationYBy(180f).start()
+        }
+
+        retakeButton.setOnClickListener() {
+            onBackPressed()
+        }
+
+        //Optimize button!
+        optimizeButton.setOnClickListener() {
+            if (ivCrop.canRightCrop()) {
+                val crop: Bitmap = ivCrop.crop()
+                saveImage(crop, mCroppedFile)
+                setResult(RESULT_OK)
+            } else {
+                Toast.makeText(applicationContext,"Cannot crop correctly!",Toast.LENGTH_SHORT).show()
+            }
+            val intent = Intent(this, OptimizedImage::class.java)
+            intent.putExtra("Cropped Image", mCroppedFile)
+            startActivity(intent)
+        }
+
+    }
+    private fun saveImage(bitmap: Bitmap, saveFile: File) {
+        try {
+            val fos = FileOutputStream(saveFile)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+            fos.flush()
+            fos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
         }
     }
+
+    override fun onBackPressed() {
+
+        // Create the object of AlertDialog Builder class
+        val builder: android.app.AlertDialog.Builder = android.app.AlertDialog.Builder(this@EditImage)
+
+        // Set Cancelable false for when the user clicks on the outside the Dialog Box then it will remain show
+        builder.setCancelable(false)
+
+
+        // Set the message show for the Alert time
+        builder.setMessage("This one will be deleted.")
+
+        // Set Alert Title
+        builder.setTitle("Do you wish to retake the image?")
+
+        builder
+            .setPositiveButton(
+                "OK",
+                DialogInterface.OnClickListener { dialog, which -> // When the user click yes button
+                    // then app will close
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("cameraState","true" )
+                    startActivity(intent)
+                })
+
+        builder
+            .setNegativeButton(
+                "CANCEL",
+                DialogInterface.OnClickListener { dialog, which -> // If user click no
+                    // then dialog box is canceled.
+                    dialog.cancel()
+                })
+
+
+        // Show the Alert Dialog box
+        builder.create()?.show()
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return mScaleGestureDetector!!.onTouchEvent(event)
+    }
+
+    inner class ScaleListener : SimpleOnScaleGestureListener() {
+        var mScaleFactor = 1.0f
+
+
+        // when a scale gesture is detected, use it to resize the image
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            mScaleFactor *= scaleGestureDetector.scaleFactor
+
+            ivCrop?.scaleX = mScaleFactor
+            ivCrop?.scaleY = mScaleFactor
+            return true
+        }
+    }
+
 
 }
