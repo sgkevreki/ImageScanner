@@ -98,9 +98,11 @@
             android:id="@+id/displayImageView"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            app:srcCompat="@drawable/ic_launcher_background"
+            app:srcCompat="@drawable/black_background"
             tools:ignore="VectorDrawableCompat"
             android:layout_gravity="center_vertical" />
+
+
 
     </FrameLayout>
 

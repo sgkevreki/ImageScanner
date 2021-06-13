@@ -7,9 +7,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.ScaleGestureDetector
-import android.view.ScaleGestureDetector.SimpleOnScaleGestureListener
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
@@ -25,7 +23,8 @@ import java.util.*
 
 class EditImage : AppCompatActivity() {
     private var mScaleGestureDetector: ScaleGestureDetector? = null
-    private val ivCrop: ImageView? = null
+    private var ivZoom: ImageView? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -45,7 +44,10 @@ class EditImage : AppCompatActivity() {
         val ivCrop: CropImageView = findViewById(R.id.iv_crop)
 
         //pinch to zoom in or zoom out
-        mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
+        //im using a new variable for this
+//        ivZoom = ivCrop
+//
+//        mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         currentPhotoPath = intent.getStringExtra("current_photo_path").toString()
         val f = File(currentPhotoPath)
@@ -140,23 +142,26 @@ class EditImage : AppCompatActivity() {
         builder.create()?.show()
     }
 
-    override fun onTouchEvent(event: MotionEvent?): Boolean {
-        return mScaleGestureDetector!!.onTouchEvent(event)
-    }
 
-    inner class ScaleListener : SimpleOnScaleGestureListener() {
-        var mScaleFactor = 1.0f
-
-
-        // when a scale gesture is detected, use it to resize the image
-        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
-            mScaleFactor *= scaleGestureDetector.scaleFactor
-
-            ivCrop?.scaleX = mScaleFactor
-            ivCrop?.scaleY = mScaleFactor
-            return true
-        }
-    }
+//    override fun onTouchEvent(event: MotionEvent?): Boolean {
+//        return mScaleGestureDetector!!.onTouchEvent(event)
+//    }
+//
+//    inner class ScaleListener : SimpleOnScaleGestureListener() {
+//        var mScaleFactor = 1.0f
+//
+//
+//        // when a scale gesture is detected, use it to resize the image
+//        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+//            mScaleFactor *= scaleGestureDetector.scaleFactor
+//            mScaleFactor = 0.5f.coerceAtLeast(mScaleFactor.coerceAtMost(2.0f));
+//
+//            ivZoom?.scaleX = mScaleFactor
+//            ivZoom?.scaleY = mScaleFactor
+//
+//            return true
+//        }
+//    }
 
 
 }
