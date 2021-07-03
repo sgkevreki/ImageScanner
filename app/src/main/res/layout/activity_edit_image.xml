@@ -77,15 +77,13 @@
 
     <FrameLayout
         android:id="@+id/frame"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="630dp"
         android:layout_gravity="center_vertical|center_horizontal"
         android:focusable="false"
         app:layout_constraintTop_toBottomOf="@id/retake_button"
         app:layout_constraintBottom_toTopOf="@id/optimize_button"
         app:layout_constraintStart_toStartOf="parent">
-
-
 
         <ImageView
             android:id="@+id/background"
@@ -94,15 +92,28 @@
             app:srcCompat="@drawable/black_background"
             android:scaleType="fitXY" />
 
+<!--        <ImageView-->
+<!--            android:id="@+id/displayImageView"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:paddingStart="20dp"-->
+<!--            android:paddingEnd="20dp"-->
+<!--            android:layout_height="500dp"-->
+<!--            app:srcCompat="@drawable/black_background"-->
+<!--            tools:ignore="VectorDrawableCompat"-->
+<!--            android:layout_gravity="center_vertical" />-->
         <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/displayImageView"
-            android:layout_width="match_parent"
-            android:layout_height="500dp"
-            app:srcCompat="@drawable/black_background"
-            tools:ignore="VectorDrawableCompat"
-            android:layout_gravity="center_vertical" />
-
-
+            android:layout_width="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside"
+            android:background="@drawable/black_background"/>
 
     </FrameLayout>
 
@@ -110,6 +121,5 @@
         android:id="@+id/iv_crop"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

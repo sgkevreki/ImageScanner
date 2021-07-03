@@ -3,11 +3,15 @@ package com.example.imagescanner.ui
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.Picture
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.imagescanner.R
+import pl.droidsonroids.gif.GifImageView
 import java.io.File
 
 
@@ -16,15 +20,26 @@ class OptimizedImage : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_optimized_image)
 
+
+        val backButton = findViewById<ImageButton>(R.id.back_button)
         val ivShow: ImageView = findViewById(R.id.iv_show)
 
+        val loading = findViewById<GifImageView>(R.id.loading)
+        loading.visibility = View.VISIBLE
 
         val photoFile: File = intent.getSerializableExtra("Cropped Image") as File
         val bitmap = BitmapFactory.decodeFile(photoFile.path)
+        ivShow.setImageBitmap(bitmap)
 
-        val thresholdBitmap = grayscaleToBin(bitmap)
-        val denoiseBitmap = removeNoise(thresholdBitmap)
-        ivShow.setImageBitmap(denoiseBitmap)
+
+        Thread {
+            val thresholdBitmap = grayscaleToBin(bitmap)
+            val denoiseBitmap = removeNoise(thresholdBitmap)
+            loading.visibility = View.INVISIBLE
+            ivShow.setImageBitmap(denoiseBitmap) }.start()
+
+
+        backButton.setOnClickListener { finish() }
     }
 
 
@@ -137,27 +152,30 @@ class OptimizedImage : AppCompatActivity() {
         return bm
     }
 
-    private fun removeNoise(bmap: Bitmap): Bitmap {
-        for (x in 0 until bmap.width) {
-            for (y in 0 until bmap.height) {
-                val pixel = bmap.getPixel(x, y)
+    private fun removeNoise(bm: Bitmap): Bitmap {
+        for (x in 0 until bm.width) {
+            for (y in 0 until bm.height) {
+                val pixel = bm.getPixel(x, y)
                 val R = Color.red(pixel)
                 val G = Color.green(pixel)
                 val B = Color.blue(pixel)
-                if (R < 162 && G < 162 && B < 162) bmap.setPixel(x, y, Color.BLACK)
+                if (R < 162 && G < 162 && B < 162)
+                    bm.setPixel(x, y, Color.BLACK)
             }
         }
-        for (x in 0 until bmap.width) {
-            for (y in 0 until bmap.height) {
-                val pixel = bmap.getPixel(x, y)
+        for (x in 0 until bm.width) {
+            for (y in 0 until bm.height) {
+                val pixel = bm.getPixel(x, y)
                 val R = Color.red(pixel)
                 val G = Color.green(pixel)
                 val B = Color.blue(pixel)
-                if (R > 162 && G > 162 && B > 162) bmap.setPixel(x, y, Color.WHITE)
+                if (R > 162 && G > 162 && B > 162) bm.setPixel(x, y, Color.WHITE)
             }
         }
-        return bmap
+        return bm
     }
+
+
 
 }
 

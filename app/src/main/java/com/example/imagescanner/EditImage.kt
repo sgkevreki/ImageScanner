@@ -7,6 +7,7 @@ import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -45,9 +46,9 @@ class EditImage : AppCompatActivity() {
 
         //pinch to zoom in or zoom out
         //im using a new variable for this
-//        ivZoom = ivCrop
-//
-//        mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
+        ivZoom = ivCrop
+
+        mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         currentPhotoPath = intent.getStringExtra("current_photo_path").toString()
         val f = File(currentPhotoPath)
@@ -143,25 +144,25 @@ class EditImage : AppCompatActivity() {
     }
 
 
-//    override fun onTouchEvent(event: MotionEvent?): Boolean {
-//        return mScaleGestureDetector!!.onTouchEvent(event)
-//    }
-//
-//    inner class ScaleListener : SimpleOnScaleGestureListener() {
-//        var mScaleFactor = 1.0f
-//
-//
-//        // when a scale gesture is detected, use it to resize the image
-//        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
-//            mScaleFactor *= scaleGestureDetector.scaleFactor
-//            mScaleFactor = 0.5f.coerceAtLeast(mScaleFactor.coerceAtMost(2.0f));
-//
-//            ivZoom?.scaleX = mScaleFactor
-//            ivZoom?.scaleY = mScaleFactor
-//
-//            return true
-//        }
-//    }
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return mScaleGestureDetector!!.onTouchEvent(event)
+    }
+
+    inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
+        var mScaleFactor = 1.0f
+
+
+        // when a scale gesture is detected, use it to resize the image
+        override fun onScale(scaleGestureDetector: ScaleGestureDetector): Boolean {
+            mScaleFactor *= scaleGestureDetector.scaleFactor
+            mScaleFactor = 0.5f.coerceAtLeast(mScaleFactor.coerceAtMost(2.0f));
+
+            ivZoom?.scaleX = mScaleFactor
+            ivZoom?.scaleY = mScaleFactor
+
+            return true
+        }
+    }
 
 
 }
