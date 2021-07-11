@@ -9,14 +9,19 @@
         android:id="@+id/nav_home"
         android:name="com.example.imagescanner.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home">
+
+    <action android:id="@+id/action_a_to_b"
+        app:destination="@id/nav_saved_files"
+        app:popUpToInclusive="true"
+        app:popUpTo="@id/nav_home"/>
+   </fragment>
 
     <fragment
         android:id="@+id/nav_saved_files"
         android:name="com.example.imagescanner.ui.saved_files.Saved_FilesFragment"
         android:label="Saved Files"
         tools:layout="@layout/fragment_saved_files" />
-
     <fragment
         android:id="@+id/nav_signature"
         android:name="com.example.imagescanner.ui.slideshow.SlideshowFragment"

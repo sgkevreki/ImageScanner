@@ -1,5 +1,6 @@
 package com.example.imagescanner.ui
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
@@ -9,7 +10,9 @@ import android.os.Looper
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.imagescanner.MainActivity
 import com.example.imagescanner.R
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
@@ -27,6 +30,8 @@ class OptimizedImage : AppCompatActivity() {
         val loading = findViewById<GifImageView>(R.id.loading)
         loading.visibility = View.VISIBLE
 
+        val moveToSavedButton = findViewById<ImageButton>(R.id.move_to_saved_button)
+
         val photoFile: File = intent.getSerializableExtra("Cropped Image") as File
         val bitmap = BitmapFactory.decodeFile(photoFile.path)
         ivShow.setImageBitmap(bitmap)
@@ -40,6 +45,13 @@ class OptimizedImage : AppCompatActivity() {
 
 
         backButton.setOnClickListener { finish() }
+
+        moveToSavedButton.setOnClickListener() {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("test","true" )
+            startActivity(intent)
+        }
+
     }
 
 
@@ -174,7 +186,6 @@ class OptimizedImage : AppCompatActivity() {
         }
         return bm
     }
-
 
 
 }

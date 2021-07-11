@@ -18,6 +18,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     private var cameraState = "false"
+    private var test = "false"
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+        test = intent.getStringExtra("test").toString()
+        if (test=="true") {
+            navController.navigate(R.id.action_a_to_b)
+        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,7 +57,8 @@ class MainActivity : AppCompatActivity() {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-    fun getMyData(): String? {
+
+    fun getMyData(): String {
         cameraState = intent.getStringExtra("cameraState").toString()
         return cameraState
     }

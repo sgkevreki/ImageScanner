@@ -73,12 +73,12 @@
         android:layout_gravity="center_horizontal"/>
 
     <ImageButton
-        android:id="@+id/optimize_button"
+        android:id="@+id/move_to_saved_button"
         android:layout_width="90dp"
-        android:layout_height="45dp"
+        android:layout_height="51.43dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/optimize"
+        app:srcCompat="@drawable/move_to_saved"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frame"
         app:layout_constraintEnd_toEndOf="parent"
@@ -93,7 +93,7 @@
         android:layout_gravity="center_vertical|center_horizontal"
         android:focusable="false"
         app:layout_constraintTop_toBottomOf="@id/back_button"
-        app:layout_constraintBottom_toTopOf="@id/optimize_button"
+        app:layout_constraintBottom_toTopOf="@id/move_to_saved_button"
         app:layout_constraintStart_toStartOf="parent">
 
 
