@@ -1,24 +1,39 @@
 package com.example.imagescanner.ui
 
+import android.annotation.SuppressLint
+import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.os.Environment
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import com.example.imagescanner.MainActivity
 import com.example.imagescanner.R
 import pl.droidsonroids.gif.GifImageView
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+import java.io.OutputStream
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.jar.Manifest
 
 
 class OptimizedImage : AppCompatActivity() {
+    @SuppressLint("WrongThread")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_optimized_image)
@@ -35,22 +50,27 @@ class OptimizedImage : AppCompatActivity() {
         val photoFile: File = intent.getSerializableExtra("Cropped Image") as File
         val bitmap = BitmapFactory.decodeFile(photoFile.path)
         ivShow.setImageBitmap(bitmap)
-
+        
 
         Thread {
             val thresholdBitmap = grayscaleToBin(bitmap)
             val denoiseBitmap = removeNoise(thresholdBitmap)
             loading.visibility = View.INVISIBLE
-            ivShow.setImageBitmap(denoiseBitmap) }.start()
+            ivShow.setImageBitmap(denoiseBitmap)
+            saveMediaToStorage(denoiseBitmap)
+        }.start()
 
 
         backButton.setOnClickListener { finish() }
 
         moveToSavedButton.setOnClickListener() {
+
+
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("test","true" )
             startActivity(intent)
         }
+
 
     }
 
@@ -187,7 +207,36 @@ class OptimizedImage : AppCompatActivity() {
         return bm
     }
 
+    private fun saveMediaToStorage(bitmap: Bitmap) {
+        val filename = "imagescanner" + (0..100).random().toString() + ".jpg"
 
+        var fos: OutputStream? = null
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            contentResolver?.also { resolver ->
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                }
+                val imageUri: Uri? =
+                    resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+                fos = imageUri?.let { resolver.openOutputStream(it) }
+
+                Log.d("tag", " Url of Image is " + imageUri?.toString() )
+            }
+
+        } else {
+            val imagesDir =
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)
+            val image = File(imagesDir, filename)
+            fos = FileOutputStream(image)
+        }
+        fos?.use {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, it)
+        }
+    }
 }
+
+
 
 

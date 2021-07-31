@@ -21,8 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ImageScanner">
         <activity
-            android:name=".ui.OptimizedImage"
+            android:name=".PreviewPhoto"
+            android:exported="true"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".ui.OptimizedImage"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity
             android:name=".EditImage"
             android:theme="@style/Theme.AppCompat.NoActionBar" />

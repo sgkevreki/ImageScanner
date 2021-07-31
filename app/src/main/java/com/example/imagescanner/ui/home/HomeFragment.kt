@@ -88,7 +88,6 @@ class HomeFragment : Fragment() {
             val intent = Intent(activity, EditImage::class.java)
             intent.putExtra("current_photo_path", currentPhotoPath)
             startActivity(intent)
-//        activity?.finish()
         }
     }
 
@@ -141,6 +140,7 @@ class HomeFragment : Fragment() {
             }
         }
     }
+
 
 
 }

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.OptimizedImage">
+
+    <ImageButton
+        android:id="@+id/back_button"
+        android:layout_width="70dp"
+        android:layout_height="40dp"
+        app:srcCompat="@drawable/back"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/frame"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+
+
+    <ImageButton
+        android:id="@+id/left_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/left"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="30dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageButton
+        android:id="@+id/right_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame"
+        app:layout_constraintStart_toEndOf="@id/left_button"
+        android:layout_marginStart="25dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageButton
+        android:id="@+id/mirror_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/mirror"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame"
+        app:layout_constraintStart_toEndOf="@id/right_button"
+        android:layout_marginStart="25dp"
+        android:layout_gravity="center_horizontal"/>
+
+    <ImageButton
+        android:id="@+id/sending_options_button"
+        android:layout_width="90dp"
+        android:layout_height="51.43dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/move_to_saved"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/frame"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_gravity="center_horizontal"/>
+
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="wrap_content"
+        android:layout_height="630dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:focusable="false"
+        app:layout_constraintTop_toBottomOf="@id/back_button"
+        app:layout_constraintBottom_toTopOf="@id/sending_options_button"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <ImageView
+            android:id="@+id/background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/black_background"
+            android:scaleType="fitXY" />
+
+        <ImageView
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:id="@+id/iv_preview"
+            android:layout_width="wrap_content"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:scaleType="centerInside"
+            android:background="@drawable/black_background"/>
+
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
