@@ -80,8 +80,6 @@ class PreviewPhoto : AppCompatActivity() {
         startActivity(Intent.createChooser(intent, "Share Image"))
     }
 
-
-
     var pdfDocument // to create .pdf file
             : PdfDocument? = null
 

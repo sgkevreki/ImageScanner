@@ -4,8 +4,12 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/activity_edit_image.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/activity_main.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/activity_optimized_image.xml" value="0.12182971014492754" />
+        <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/activity_preview_multiple_photos.xml" value="0.1875" />
         <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/activity_preview_photo.xml" value="0.20471014492753623" />
+        <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/fragment_home.xml" value="0.11730072463768115" />
+        <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/fragment_saved_files.xml" value="0.12360688956433637" />
         <entry key="..\:/Users/sofia/AndroidStudioProjects/Image Scanner/app/src/main/res/layout/grid_photo_layout.xml" value="0.12360688956433637" />
       </map>
     </option>

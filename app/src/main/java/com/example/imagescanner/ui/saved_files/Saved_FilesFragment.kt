@@ -64,7 +64,7 @@ class Saved_FilesFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_saved_files, container, false)
         val mRecyclerView : RecyclerView = view!!.findViewById(R.id.recyclerview_id)
-        val mAdapter : GridAdapter = GridAdapter(finalphotos, requireActivity().applicationContext)
+        val mAdapter = GridAdapter(finalphotos, requireActivity().applicationContext)
         val mLayoutManager = GridLayoutManager(requireActivity().applicationContext, 2 /* Pictures per line */)
 
         mRecyclerView.layoutManager = mLayoutManager
