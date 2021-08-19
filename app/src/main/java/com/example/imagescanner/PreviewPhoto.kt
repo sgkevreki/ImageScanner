@@ -65,7 +65,7 @@ class PreviewPhoto : AppCompatActivity() {
         }
 
     }
-
+    
     private fun shareJPG(view: View) {
 
         val mBitmap: Bitmap = loadBitmapFromView(view)!!
