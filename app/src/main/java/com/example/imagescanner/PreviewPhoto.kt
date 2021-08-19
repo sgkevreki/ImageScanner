@@ -142,6 +142,7 @@ class PreviewPhoto : AppCompatActivity() {
 //
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+
         shareIntent.type = "application/pdf"
         /** set the corresponding mime type of the file to be shared */
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)

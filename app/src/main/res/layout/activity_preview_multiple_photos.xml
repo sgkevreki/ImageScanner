@@ -68,7 +68,6 @@
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/move_to_saved"
-        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frame"
         app:layout_constraintEnd_toEndOf="parent"

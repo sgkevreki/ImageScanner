@@ -17,13 +17,15 @@ import com.example.imagescanner.ui.saved_files.Saved_FilesFragment
 import kotlin.collections.ArrayList
 
 
-class GridAdapter(tileList: ArrayList<Uri>, context: Context) :
+ class GridAdapter(tileList: ArrayList<Uri>, context: Context) :
     RecyclerView.Adapter<GridAdapter.MyViewHolder>() {
     private val mTiles: ArrayList<Uri> = tileList
     private val mContext: Context = context
     private var mListener: OnItemClickListener? = null
+    private val arraySelectedIDs: MutableList<String> = mutableListOf()
 
-    interface OnItemClickListener {
+
+     interface OnItemClickListener {
         fun onItemClick(position: Int)}
 
     class MyViewHolder(itemView: View, listener: OnItemClickListener?) :
@@ -57,7 +59,6 @@ class GridAdapter(tileList: ArrayList<Uri>, context: Context) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentPhotoID: Uri = mTiles[position]
         var flag = 0
-        val arraySelectedIDs: ArrayList<Uri> = ArrayList()
         holder.mImageView.setImageURI(currentPhotoID)
         holder.mImageView.setOnClickListener() {
             if (flag==0) {
@@ -69,20 +70,21 @@ class GridAdapter(tileList: ArrayList<Uri>, context: Context) :
             else {
                 holder.checked.visibility = View.INVISIBLE
                 holder.send.visibility = View.INVISIBLE
-                arraySelectedIDs.remove(currentPhotoID)
+                arraySelectedIDs.remove(currentPhotoID.toString())
             }
         }
         holder.mImageView.setOnLongClickListener() {
             holder.checked.visibility = View.VISIBLE
             holder.send.visibility = View.VISIBLE
             flag = 1
-            arraySelectedIDs.add(currentPhotoID)
+            arraySelectedIDs.add(currentPhotoID.toString())
+//            Log.d("TEST!!!!", "Array: ${arraySelectedIDs.size}, currentphotoid: ${currentPhotoID.toString()}")
             true
         }
 
         holder.send.setOnClickListener() {
             val intent = Intent(mContext, PreviewMultiplePhotos::class.java)
-            intent.putExtra("selected", arraySelectedIDs)
+            intent.putStringArrayListExtra("selected", arraySelectedIDs as java.util.ArrayList<String>)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             mContext.startActivity(intent)
         }

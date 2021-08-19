@@ -47,6 +47,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
     implementation files('libs/smartcropperlib-v2.1.1-release.aar')
+    implementation files('C:\\Users\\arkountos\\AndroidStudioProjects\\ImageScanner\\app\\libs\\smartcropperlib-v2.1.1-release.aar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
