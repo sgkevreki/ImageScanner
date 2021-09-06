@@ -25,6 +25,7 @@ import java.util.*
 class EditImage : AppCompatActivity() {
     private var mScaleGestureDetector: ScaleGestureDetector? = null
     private var ivZoom: ImageView? = null
+    var type: String = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,11 +52,9 @@ class EditImage : AppCompatActivity() {
         mScaleGestureDetector = ScaleGestureDetector(this, ScaleListener())
 
         currentPhotoPath = intent.getStringExtra("current_photo_path").toString()
-        val f = File(currentPhotoPath)
-        ivCrop.setImageURI(Uri.fromFile(f))
-        Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f))
-        MediaScannerConnection.scanFile(applicationContext, arrayOf(f.toString()),
-            null, null)
+        type = intent.getStringExtra("type").toString()
+        var uri3 = Uri.parse(currentPhotoPath)
+        ivCrop.setImageURI(uri3)
 
         val bitmap = ivCrop.drawable.toBitmap()
 
@@ -118,16 +117,25 @@ class EditImage : AppCompatActivity() {
         builder.setMessage("This one will be deleted.")
 
         // Set Alert Title
-        builder.setTitle("Do you wish to retake the image?")
+        if (type == "camera") {
+            builder.setTitle("Do you wish to retake the image?")
+        }  else if (type == "import") {
+            builder.setTitle("Do you wish to pick an another image?")
+        }
 
         builder
             .setPositiveButton(
                 "OK",
                 DialogInterface.OnClickListener { dialog, which -> // When the user click yes button
                     // then app will close
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.putExtra("cameraState","true" )
-                    startActivity(intent)
+                    if (type == "camera") {
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.putExtra("cameraState", "true")
+                        startActivity(intent)
+                    }
+                    else {
+                        finish()
+                    }
                 })
 
         builder

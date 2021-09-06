@@ -39,41 +39,19 @@ class Saved_FilesFragment : Fragment() {
         savedInstanceState: Bundle?
         ): View? {
 
-            photos = getAllImages()
-
-//        for (i in 0..1) {
-//           // if (photos[i].toString().contains( "imagescanner")) {
-//                finalphotos.add(photos[i])
-//                Toast.makeText(context, photos[i].toString(), Toast.LENGTH_LONG).show()
-//           // }
-//        }
-
-
-        var newString ="content://media/external/images/media/52240"
-        var uri3 = Uri.parse(newString)
-        var newString2 ="content://media/external/images/media/52242"
-        var uri4 = Uri.parse(newString2)
-        var newString3 ="content://media/external/images/media/52252"
-        var uri5 = Uri.parse(newString3)
-
-        finalphotos.add(uri3)
-        finalphotos.add(uri4)
-        finalphotos.add(uri5)
-        //  Toast.makeText(context, testi[0].toString(), Toast.LENGTH_LONG).show()
-
+        photos = getAllImages()
 
         val view = inflater.inflate(R.layout.fragment_saved_files, container, false)
         val mRecyclerView : RecyclerView = view!!.findViewById(R.id.recyclerview_id)
-        val mAdapter = GridAdapter(finalphotos, requireActivity().applicationContext)
+        val mAdapter = GridAdapter(photos, requireActivity().applicationContext)
         val mLayoutManager = GridLayoutManager(requireActivity().applicationContext, 2 /* Pictures per line */)
 
         mRecyclerView.layoutManager = mLayoutManager
         mRecyclerView.adapter = mAdapter
 
-
-
         return view
     }
+
     private fun getAllImages(): ArrayList<Uri> {
         val allImages = ArrayList<Uri>()
 
@@ -86,7 +64,7 @@ class Saved_FilesFragment : Fragment() {
         val cursor = activity?.application?.contentResolver?.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             imageProjection,
-            null,
+            MediaStore.Images.Media.TITLE + " LIKE \"%imagescanner%\"",
             null,
             imageSortOrder
         )

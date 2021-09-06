@@ -14,16 +14,8 @@
             android:icon="@drawable/saved_files_icon"
             android:title="Saved Files" />
         <item
-            android:id="@+id/nav_signature"
-            android:icon="@drawable/signature_icon"
-            android:title="Saved Signatures" />
-        <item
-            android:id="@+id/nav_tools"
+            android:id="@+id/nav_pdf_converter"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="PDF Tools" />
-        <item
-            android:id="@+id/nav_converter"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Converter" />
+            android:title="PDF Converter" />
     </group>
 </menu>

@@ -83,10 +83,8 @@ class PreviewPhoto : AppCompatActivity() {
     var pdfDocument // to create .pdf file
             : PdfDocument? = null
 
+
     private fun sharePDF(view: View) {
-
-
-
         val bitmap: Bitmap = loadBitmapFromView(view)!!
 
         pdfDocument = PdfDocument()
@@ -110,7 +108,7 @@ class PreviewPhoto : AppCompatActivity() {
 //            isDirectoryCreated = root.mkdir()
 //        }
 
-        val fileName = "ImageScanner.pdf"
+        val fileName = "ImageScanner" + (0..100).random().toString() + ".pdf"
         val file = File(storageDir, fileName)
         try {
             val fileOutputStream = FileOutputStream(file)
@@ -148,7 +146,6 @@ class PreviewPhoto : AppCompatActivity() {
         shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri)
 
         startActivity(Intent.createChooser(shareIntent, "Share the file..."))
-
     }
 
     private fun loadBitmapFromView(view: View): Bitmap? {

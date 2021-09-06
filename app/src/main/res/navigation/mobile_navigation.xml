@@ -23,8 +23,8 @@
         android:label="Saved Files"
         tools:layout="@layout/fragment_saved_files" />
     <fragment
-        android:id="@+id/nav_signature"
-        android:name="com.example.imagescanner.ui.slideshow.SlideshowFragment"
-        android:label="Saved Signatures"
-        tools:layout="@layout/fragment_signature" />
+        android:id="@+id/nav_pdf_converter"
+        android:name="com.example.imagescanner.ui.pdf_converter.PdfConverter"
+        android:label="PDF Converter"
+        tools:layout="@layout/pdf_converter_fragment" />
 </navigation>

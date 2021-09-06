@@ -21,8 +21,8 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.example.imagescanner.EditImage
 import com.example.imagescanner.MainActivity
-import com.example.imagescanner.R
 import java.io.File
+import java.io.FileNotFoundException
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,8 +38,10 @@ class HomeFragment : Fragment() {
     ): View {
 
 
-        val view: View = inflater.inflate(R.layout.fragment_home, container, false)
-        val imageButton = view.findViewById<View>(R.id.scan_button) as ImageButton
+        val view: View = inflater.inflate(com.example.imagescanner.R.layout.fragment_home, container, false)
+        val imageButton = view.findViewById<View>(com.example.imagescanner.R.id.scan_button) as ImageButton
+        val imageButton2 = view.findViewById<View>(com.example.imagescanner.R.id.import_button) as ImageButton
+
 
 
         val activity: MainActivity? = activity as MainActivity?
@@ -51,8 +53,12 @@ class HomeFragment : Fragment() {
 
         imageButton.setOnClickListener() {
 
-            //  askCameraPermissions()
-            dispatchTakePictureIntent()
+            askCameraPermissions()
+           // dispatchTakePictureIntent()
+        }
+
+        imageButton2.setOnClickListener() {
+            galleryIntent()
         }
         return view
     }
@@ -60,34 +66,23 @@ class HomeFragment : Fragment() {
 
     private val CAMERA_PERM_CODE = 101
     private val CAMERA_REQUEST_CODE = 102
-    private val GALLERY_REQUEST_CODE = 105
-    // private val intent3 =Intent(activity, EditImage::class.java)
-
+    private val RESULT_LOAD_IMG = 106
 
     var currentPhotoPath: String? = null
     private fun askCameraPermissions() {
         if (context?.let { ActivityCompat.checkSelfPermission(it, android.Manifest.permission.CAMERA) } != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(context as Activity, arrayOf(android.Manifest.permission.CAMERA), CAMERA_PERM_CODE)
-        } else {
+         } else {
             dispatchTakePictureIntent()
         }
     }
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
-//        if (requestCode == CAMERA_PERM_CODE) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                dispatchTakePictureIntent()
-//            } else {
-//                Toast.makeText(context, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (resultCode == RESULT_OK) {
-            val intent = Intent(activity, EditImage::class.java)
-            intent.putExtra("current_photo_path", currentPhotoPath)
-            startActivity(intent)
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String?>, grantResults: IntArray) {
+        if (requestCode == CAMERA_PERM_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                dispatchTakePictureIntent()
+            } else {
+                Toast.makeText(context, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -96,22 +91,6 @@ class HomeFragment : Fragment() {
         val c: ContentResolver? = activity?.contentResolver
         val mime = MimeTypeMap.getSingleton()
         return mime.getExtensionFromMimeType(c?.getType(contentUri!!))
-    }
-
-    @Throws(IOException::class)
-    private fun createImageFile(): File? {
-        // Create an image file name
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val imageFileName = "JPEG_" + timeStamp + "_"
-        val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        val image = File.createTempFile(
-            imageFileName,  /* prefix */
-            ".jpg",  /* suffix */
-            storageDir /* directory */
-        )
-        // Save a file: path for use with ACTION_VIEW intents
-        currentPhotoPath = image.absolutePath
-        return image
     }
 
     @SuppressLint("QueryPermissionsNeeded")
@@ -140,7 +119,54 @@ class HomeFragment : Fragment() {
             }
         }
     }
+    @Throws(IOException::class)
+    private fun createImageFile(): File? {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val imageFileName = "JPEG_" + timeStamp + "_"
+        val storageDir: File? = activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val image = File.createTempFile(
+            imageFileName,  /* prefix */
+            ".jpg",  /* suffix */
+            storageDir /* directory */
+        )
+        // Save a file: path for use with ACTION_VIEW intents
+        currentPhotoPath = image.absolutePath
+        return image
+    }
 
 
+
+    ///////////// IMPORT /////////////
+    private fun galleryIntent() {
+        val photoPickerIntent = Intent(Intent.ACTION_PICK)
+        photoPickerIntent.type = "image/*"
+        startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG)
+    }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RESULT_LOAD_IMG) {
+                try {
+                    val imageUri: Uri? = data?.data
+                    val intent = Intent(activity, EditImage::class.java)
+                    intent.putExtra("current_photo_path", imageUri.toString())
+                    intent.putExtra("type", "import")
+                    startActivity(intent)
+                } catch (e: FileNotFoundException) {
+                    e.printStackTrace()
+                    Toast.makeText(context, "wrong", Toast.LENGTH_LONG).show()
+                }
+            }
+            if (requestCode == CAMERA_REQUEST_CODE) {
+                val intent = Intent(activity, EditImage::class.java)
+                intent.putExtra("current_photo_path", currentPhotoPath)
+                intent.putExtra("type", "camera")
+                startActivity(intent)
+            }
+        }
+
+    }
 
 }
