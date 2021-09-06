@@ -11,26 +11,26 @@
 
     <ImageButton
         android:id="@+id/upload_button"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
         android:layout_gravity="center"
-        android:layout_marginStart="164dp"
-        android:layout_marginTop="208dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="190dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:src="@drawable/back"
+        android:src="@drawable/single"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
         android:id="@+id/upload_multiple_button"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginStart="164dp"
+        android:layout_width="300dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="80dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:src="@drawable/send"
+        android:src="@drawable/multi"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/upload_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>

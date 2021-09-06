@@ -37,9 +37,12 @@ class PreviewMultiplePhotos : AppCompatActivity() {
         val uri = Uri.parse(selectedPhotosArray?.get(0))
 
         val sendButton = findViewById<ImageButton>(R.id.sending_options_button)
+        val backButton = findViewById<ImageButton>(R.id.back_button)
 
         val ivPreview: ImageView = findViewById(R.id.iv_preview)
         ivPreview.setImageURI(uri)
+
+        backButton.setOnClickListener { finish() }
 
         sendButton.setOnClickListener {
 

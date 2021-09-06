@@ -39,6 +39,7 @@ class Saved_FilesFragment : Fragment() {
         savedInstanceState: Bundle?
         ): View? {
 
+
         photos = getAllImages()
 
         val view = inflater.inflate(R.layout.fragment_saved_files, container, false)

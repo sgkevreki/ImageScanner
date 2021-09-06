@@ -42,6 +42,8 @@ class PdfConverter : Fragment() {
         val uploadButton = view.findViewById<View>(R.id.upload_button) as ImageButton
         val uploadMultipleButton = view.findViewById<View>(R.id.upload_multiple_button) as ImageButton
 
+        Toast.makeText(context, "Pick images from gallery to convert them to PDF", Toast.LENGTH_SHORT).show()
+
         uploadButton.setOnClickListener() {
             galleryIntent()
         }
@@ -198,7 +200,6 @@ class PdfConverter : Fragment() {
             canvas.drawBitmap(scaledBitmap, 0.toFloat(), 0.toFloat(), null)
             pdfDocument!!.finishPage(page)
         }
-        Toast.makeText(context, sendSelected[0].toString(), Toast.LENGTH_LONG).show()
 
         val storageDir: File? =  activity?.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
 

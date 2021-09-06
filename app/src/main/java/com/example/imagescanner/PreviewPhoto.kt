@@ -121,23 +121,7 @@ class PreviewPhoto : AppCompatActivity() {
         val contentUri = FileProvider.getUriForFile(applicationContext,"com.example.android.fileprovider",file)
 
         Log.i("local-dev", "'saveFile' function successfully done")
-        Toast.makeText(
-            this, """
- Successful! PATH:
- Internal Storage/${Environment.DIRECTORY_DOWNLOADS}
- """.trimIndent(), Toast.LENGTH_SHORT
-        ).show()
 
-//        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
-//        intent.type = "application/pdf"
-//        intent.addCategory(Intent.CATEGORY_OPENABLE)
-//        startActivityForResult(intent, 123)
-//        val mBitmap: Bitmap = loadBitmapFromView(view)!!
-//
-//        val path: String =
-//            MediaStore.Images.Media.insertImage(contentResolver, mBitmap, "Image Description", null)
-//        val uri = Uri.parse(path)
-//
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 

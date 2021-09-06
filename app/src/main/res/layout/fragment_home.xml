@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="100dp"
         />
 
     <ImageButton
@@ -53,20 +53,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/scan_button"
-        android:layout_marginTop="60dp"/>
+        android:layout_marginTop="100dp"/>
 
-    <ImageButton
-        android:id="@+id/edit_button"
-        android:layout_width="300dp"
-        android:layout_height="75dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitXY"
-        app:srcCompat="@drawable/edit_button"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="573dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/import_button"
-        android:layout_marginTop="60dp"/>
+<!--    <ImageButton-->
+<!--        android:id="@+id/edit_button"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="75dp"-->
+<!--        android:background="@android:color/transparent"-->
+<!--        android:scaleType="fitXY"-->
+<!--        app:srcCompat="@drawable/edit_button"-->
+<!--        tools:layout_editor_absoluteX="30dp"-->
+<!--        tools:layout_editor_absoluteY="573dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@id/import_button"-->
+<!--        android:layout_marginTop="60dp"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

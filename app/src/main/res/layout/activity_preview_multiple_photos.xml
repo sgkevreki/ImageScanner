@@ -67,7 +67,7 @@
         android:layout_height="51.43dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/move_to_saved"
+        app:srcCompat="@drawable/sendd"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/frame"
         app:layout_constraintEnd_toEndOf="parent"
