@@ -8,5 +8,3 @@ Demo:
 
 Results:
 
-
-You can read my thesis in Greek in the following link: https://www.e-ce.uth.gr/wp-content/uploads/formidable/59/Gkevreki_sofia.pdf
